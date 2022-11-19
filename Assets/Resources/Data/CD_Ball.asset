@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: CD_Ball
   m_EditorClassIdentifier: 
   BallMovementData:
-    speed: 15
-    jumpForce: 20
+    speed: 150
+    jumpForce: 16
     direction: 1

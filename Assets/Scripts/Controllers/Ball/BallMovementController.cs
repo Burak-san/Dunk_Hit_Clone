@@ -1,5 +1,4 @@
-﻿using System;
-using Data.UnityObjects;
+﻿using Data.UnityObjects;
 using Data.ValueObjects;
 using UnityEngine;
 
@@ -33,6 +32,11 @@ namespace Controllers.Ball
         {
             ballRigidbody.velocity = new Vector2(ballRigidbody.velocity.x, 0);
             ballRigidbody.AddForce(Vector2.up * Data.jumpForce,ForceMode2D.Impulse);
+        }
+
+        public void SetBallDirection()
+        {
+            Data.direction *= -1;
         }
         
     }

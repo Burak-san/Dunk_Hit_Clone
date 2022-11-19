@@ -6,10 +6,11 @@ TagManager:
   tags:
   - LeftBorder
   - RightBorder
-  - TopSideHook
-  - BottomSideHook
-  - InSideHook
   - Border
+  - TopSideHoop
+  - BottomSideHoop
+  - InSideHoop
+  - HoopBorder
   layers:
   - Default
   - TransparentFX

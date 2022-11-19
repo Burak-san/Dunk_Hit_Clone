@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Controllers;
 using Controllers.Ball;
 using Signals;
 
@@ -39,6 +35,11 @@ namespace Managers
         private void OnInputTaken()
         {
             ballMovementController.Jump();
+        }
+
+        public void SetBallDirection()
+        {
+            ballMovementController.SetBallDirection();
         }
     }
 }

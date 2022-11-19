@@ -1,9 +1,6 @@
-﻿using System;
-using Data.ValueObjects;
-using Managers;
+﻿using Managers;
 using Signals;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 namespace Controllers.Ball
 {
@@ -23,22 +20,25 @@ namespace Controllers.Ball
                 SetPosition(other);
             }
             
-            if (other.CompareTag("TopSideHook"))
+            if (other.CompareTag("TopSideHoop"))
             {
                 ScoreSignals.Instance.onScoreIncreaseable?.Invoke();
-                //Debug.Log("TopSideHook");
             }
 
-            if (other.CompareTag("InSideHook"))
+            if (other.CompareTag("InSideHoop"))
             {
                 ScoreSignals.Instance.onGainScore?.Invoke();
                 //Debug.Log("InSideHook");
             }
             
-            if (other.CompareTag("BottomSideHook"))
+            if (other.CompareTag("BottomSideHoop"))
             {
                 ScoreSignals.Instance.onScoreGainBlocked?.Invoke();
-                //Debug.Log("BottomSideHook");
+            }
+
+            if (other.CompareTag("HoopBorder"))
+            {
+                _manager.SetBallDirection();
             }
         }
 
