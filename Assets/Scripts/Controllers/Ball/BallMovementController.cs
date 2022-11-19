@@ -12,6 +12,11 @@ namespace Controllers.Ball
         
         private void Awake()
         {
+            GetReferences();
+        }
+
+        private void GetReferences()
+        {
             Data = GetBallMovementData();
             ballRigidbody = GetComponent<Rigidbody2D>();
         }

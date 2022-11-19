@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Data.UnityObjects;
 using Data.ValueObjects;
 using Signals;
 using UnityEngine;
@@ -10,6 +10,21 @@ namespace Managers
         public ScoreData Data;
         private bool _scoreIncreaseable = true;
 
+        private void Awake()
+        {
+            GetReferences();
+        }
+
+        private void GetReferences()
+        {
+            Data = GetScoreData;
+            Data.Score = 0;
+            UISignals.Instance.onSetScoreText?.Invoke(Data.Score);
+            UISignals.Instance.onSetHighScoreText?.Invoke(Data.HighScore);
+        }
+
+        private ScoreData GetScoreData => Resources.Load<CD_Score>("Data/CD_Score").ScoreData;
+        
         #region Event Subscriptions
 
         private void OnEnable()
@@ -22,6 +37,8 @@ namespace Managers
             ScoreSignals.Instance.onGainScore += OnGainScore;
             ScoreSignals.Instance.onScoreIncreaseable += OnScoreIncreaseable;
             ScoreSignals.Instance.onScoreGainBlocked += OnScoreGainBlocked;
+
+            CoreGameSignals.Instance.onReset += OnReset;
         }
 
         private void UnSubscribedEvents()
@@ -29,6 +46,8 @@ namespace Managers
             ScoreSignals.Instance.onGainScore -= OnGainScore;
             ScoreSignals.Instance.onScoreIncreaseable -= OnScoreIncreaseable;
             ScoreSignals.Instance.onScoreGainBlocked -= OnScoreGainBlocked;
+            
+            CoreGameSignals.Instance.onReset -= OnReset;
         }
 
         private void OnDisable()
@@ -47,19 +66,27 @@ namespace Managers
         {
             if (_scoreIncreaseable == true)
             {
-                Debug.Log("ScoreKazandın!!!");
-                // UI SİNYALE İNVOKE ATILACAK
-                // SCORE KAYDEDİLECEK
-                // KALAN ZAMAN FULLENECEK
-                // CORE GAME SİNYALE İNVOKE ATILACAK HOOP DİNLEYİP DOTWEEN İLE HAREKET EDECEK VE ROPE HAREKET EDECEK
-                // ROPE HAREKETİNDE SCRİPTABLE İÇİNE ROPE SPRİTE LİSTESİ EKLENECEK COROUTİNE İLE DÖNÜLECEK DATADAN ÇEKİLECEK
-                //OPSİYONEL OLARAK SCORE COMBO YAPILACAK HOOP MATERİAL DEĞİŞİMİ OPSİYONEL
+                Data.Score += 1;
+                UISignals.Instance.onSetScoreText?.Invoke(Data.Score);
+                UISignals.Instance.onSetGainScoreText?.Invoke(Data.GainScore);
+                UISignals.Instance.onSetTimeSliderValue?.Invoke();
+            }
+
+            if (Data.HighScore<Data.Score)
+            {
+                Data.HighScore = Data.Score;
+                UISignals.Instance.onSetHighScoreText?.Invoke(Data.HighScore);
             }
         }
         
         private void OnScoreGainBlocked()
         {
             _scoreIncreaseable = false;
+        }
+        
+        private void OnReset()
+        {
+            Data.Score = 0;
         }
     }
 }

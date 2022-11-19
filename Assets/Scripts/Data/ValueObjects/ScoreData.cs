@@ -6,5 +6,7 @@ namespace Data.ValueObjects
     public class ScoreData
     {
         public int Score;
+        public int GainScore;
+        public int HighScore;
     }
 }

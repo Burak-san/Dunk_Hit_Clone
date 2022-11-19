@@ -4,13 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - LeftBorder
-  - RightBorder
   - Border
   - TopSideHoop
   - BottomSideHoop
   - InSideHoop
   - HoopBorder
+  - Ground
   layers:
   - Default
   - TransparentFX
