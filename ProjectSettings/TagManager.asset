@@ -9,6 +9,7 @@ TagManager:
   - TopSideHook
   - BottomSideHook
   - InSideHook
+  - Border
   layers:
   - Default
   - TransparentFX

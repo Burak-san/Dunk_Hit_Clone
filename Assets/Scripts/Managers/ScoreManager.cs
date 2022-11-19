@@ -1,4 +1,5 @@
 ﻿using System;
+using Data.ValueObjects;
 using Signals;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ namespace Managers
 {
     public class ScoreManager : MonoBehaviour
     {
+        public ScoreData Data;
         private bool _scoreIncreaseable = true;
 
         #region Event Subscriptions
