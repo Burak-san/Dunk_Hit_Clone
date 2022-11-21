@@ -8,5 +8,7 @@ namespace Data.ValueObjects
         public int Score;
         public int GainScore;
         public int HighScore;
+        public int Combo;
+        public int MaxComboScore;
     }
 }

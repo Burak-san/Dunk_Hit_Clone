@@ -21,6 +21,7 @@ namespace Controllers.Ball
         {
             Data = GetBallMovementData();
             Data.direction = 1;
+            Data.speed = 150;
             ballRigidbody = GetComponent<Rigidbody2D>();
             ballState = BallState.Right;
         }
@@ -61,6 +62,7 @@ namespace Controllers.Ball
         {
             ballRigidbody.velocity = new Vector2(ballRigidbody.velocity.x, 0);
             ballRigidbody.AddForce(Vector2.up * Data.jumpForce,ForceMode2D.Impulse);
+            Data.speed = 150;
         }
 
         public void SetBallDirection()
@@ -76,6 +78,15 @@ namespace Controllers.Ball
                 RightDirection();
                 
             }
+        }
+
+        public void Basket()
+        {
+            Data.speed = 150;
+        }
+        public void SetSpeed()
+        {
+            Data.speed = -75f;
         }
     }
 }

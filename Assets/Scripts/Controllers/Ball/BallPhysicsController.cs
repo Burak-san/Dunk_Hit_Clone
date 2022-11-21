@@ -29,6 +29,12 @@ namespace Controllers.Ball
             {
                 UISignals.Instance.onCheckClickable?.Invoke();
             }
+
+            if (other.CompareTag("HoopBorder"))
+            {
+                ScoreSignals.Instance.onComboDecrease?.Invoke();
+                _manager.SetSpeed();
+            }
             
             if (other.CompareTag("TopSideHoop"))
             {

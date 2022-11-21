@@ -19,8 +19,10 @@ namespace Managers
         {
             Data = GetScoreData;
             Data.Score = 0;
+            Data.Combo = 0;
             UISignals.Instance.onSetScoreText?.Invoke(Data.Score);
             UISignals.Instance.onSetHighScoreText?.Invoke(Data.HighScore);
+            UISignals.Instance.onSetMaxComboScore?.Invoke(Data.MaxComboScore);
         }
 
         private ScoreData GetScoreData => Resources.Load<CD_Score>("Data/CD_Score").ScoreData;
@@ -37,6 +39,7 @@ namespace Managers
             ScoreSignals.Instance.onGainScore += OnGainScore;
             ScoreSignals.Instance.onScoreIncreaseable += OnScoreIncreaseable;
             ScoreSignals.Instance.onScoreGainBlocked += OnScoreGainBlocked;
+            ScoreSignals.Instance.onComboDecrease += OnComboDecrease;
 
             CoreGameSignals.Instance.onReset += OnReset;
         }
@@ -46,6 +49,7 @@ namespace Managers
             ScoreSignals.Instance.onGainScore -= OnGainScore;
             ScoreSignals.Instance.onScoreIncreaseable -= OnScoreIncreaseable;
             ScoreSignals.Instance.onScoreGainBlocked -= OnScoreGainBlocked;
+            ScoreSignals.Instance.onComboDecrease -= OnComboDecrease;
             
             CoreGameSignals.Instance.onReset -= OnReset;
         }
@@ -66,10 +70,26 @@ namespace Managers
         {
             if (_scoreIncreaseable == true)
             {
-                Data.Score += 1;
+                Data.Score += Data.GainScore;
+                
+                if (Data.GainScore == 8)
+                {
+                    Data.Combo += 1;
+                    if (Data.Combo> Data.MaxComboScore)
+                    {
+                        Data.MaxComboScore = Data.Combo;
+                        UISignals.Instance.onSetMaxComboScore?.Invoke(Data.MaxComboScore);
+                    }
+                }
+                else
+                {
+                    Data.Combo = 0;
+                }
+                
                 UISignals.Instance.onSetScoreText?.Invoke(Data.Score);
-                UISignals.Instance.onSetGainScoreText?.Invoke(Data.GainScore);
+                UISignals.Instance.onSetGainScoreText?.Invoke(Data.GainScore,Data.Combo);
                 UISignals.Instance.onSetTimeSliderValue?.Invoke();
+                Data.GainScore = 8;
             }
 
             if (Data.HighScore<Data.Score)
@@ -79,6 +99,16 @@ namespace Managers
             }
         }
         
+        private void OnComboDecrease()
+        {
+            Data.GainScore /= 2;
+            
+            if (Data.GainScore < 1)
+            {
+                Data.GainScore = 1;
+            }
+        }
+
         private void OnScoreGainBlocked()
         {
             _scoreIncreaseable = false;
@@ -87,6 +117,8 @@ namespace Managers
         private void OnReset()
         {
             Data.Score = 0;
+            Data.GainScore = 8;
+            Data.Combo = 0;
         }
     }
 }

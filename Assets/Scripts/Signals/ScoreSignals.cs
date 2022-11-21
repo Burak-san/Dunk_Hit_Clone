@@ -8,5 +8,6 @@ namespace Signals
         public UnityAction onGainScore = delegate {  };
         public UnityAction onScoreIncreaseable = delegate {  };
         public UnityAction onScoreGainBlocked = delegate {  };
+        public UnityAction onComboDecrease = delegate {  };
     }
 }

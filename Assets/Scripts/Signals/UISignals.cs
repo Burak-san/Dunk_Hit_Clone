@@ -11,7 +11,8 @@ namespace Signals
         public UnityAction onSetTimeSliderValue = delegate { };
         public UnityAction onCheckClickable = delegate { };
         public UnityAction<int> onSetScoreText = delegate {  };
-        public UnityAction<int> onSetGainScoreText = delegate {  };
+        public UnityAction<int,int> onSetGainScoreText = delegate {  };
         public UnityAction<int> onSetHighScoreText = delegate {  };
+        public UnityAction<int> onSetMaxComboScore = delegate {  };
     }
 }

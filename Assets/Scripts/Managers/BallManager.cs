@@ -18,11 +18,14 @@ namespace Managers
         private void SubscribeEvents()
         {
             InputSignals.Instance.onInputTaken += OnInputTaken;
+
+            ScoreSignals.Instance.onGainScore += OnBasket;
         }
-        
+
         private void UnSubscribeEvents()
         {
             InputSignals.Instance.onInputTaken -= OnInputTaken;
+            ScoreSignals.Instance.onGainScore -= OnBasket;
         }
 
         private void OnDisable()
@@ -40,6 +43,16 @@ namespace Managers
         public void SetBallDirection()
         {
             ballMovementController.SetBallDirection();
+        }
+
+        public void SetSpeed()
+        {
+            ballMovementController.SetSpeed();
+        }
+        
+        private void OnBasket()
+        {
+            ballMovementController.Basket();
         }
     }
 }

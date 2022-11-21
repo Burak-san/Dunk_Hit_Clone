@@ -1,12 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Controllers.UI;
 using Enums;
-using JetBrains.Annotations;
 using Signals;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Managers
 {
@@ -14,9 +11,12 @@ namespace Managers
     {
 
         [SerializeField] private TextMeshProUGUI gainScoreText;
+        [SerializeField] private TextMeshProUGUI comboText;
         [SerializeField] private TextMeshProUGUI scoreText;
         [SerializeField] private TextMeshProUGUI highScoreStartPanel;
         [SerializeField] private TextMeshProUGUI highScoreFailPanel;
+        [SerializeField] private TextMeshProUGUI maxComboScoreStartPanel;
+        [SerializeField] private TextMeshProUGUI maxComboScoreFailPanel;
         [SerializeField] private UIPanelController uıPanelController;
         [SerializeField] private GamePanelController gamePanelController;
         
@@ -36,6 +36,7 @@ namespace Managers
             UISignals.Instance.onSetHighScoreText += OnSetHighScoreText;
             UISignals.Instance.onSetTimeSliderValue += OnSetTimeSliderValue;
             UISignals.Instance.onCheckClickable += OnCheckClickable;
+            UISignals.Instance.onSetMaxComboScore += OnSetMaxComboScore;
             
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onReset += OnReset;
@@ -50,6 +51,7 @@ namespace Managers
             UISignals.Instance.onSetHighScoreText -= OnSetHighScoreText;
             UISignals.Instance.onSetTimeSliderValue -= OnSetTimeSliderValue;
             UISignals.Instance.onCheckClickable -= OnCheckClickable;
+            UISignals.Instance.onSetMaxComboScore -= OnSetMaxComboScore;
                 
             CoreGameSignals.Instance.onPlay -= OnPlay;
             CoreGameSignals.Instance.onReset -= OnReset;
@@ -86,12 +88,39 @@ namespace Managers
             scoreText.text = "Score: " + score.ToString();
         }
         
-        private async void OnSetGainScoreText(int gainScore)
+        private async void OnSetGainScoreText(int gainScore,int Combo)
         {
             gainScoreText.gameObject.SetActive(true);
-            gainScoreText.text = "+" + gainScore.ToString();
+            
+            if (gainScore == 8)
+            {
+                comboText.gameObject.SetActive(true);
+                comboText.text = "Combo: " + Combo.ToString();
+                gainScoreText.text = "PERFECT SHOT!!!!!!!!!: +" + gainScore.ToString();
+            }
+            else if (gainScore == 4)
+            {
+                gainScoreText.text = "AMAZING!!!!: +" + gainScore.ToString();
+                comboText.gameObject.SetActive(false);
+            }
+            else if (gainScore == 2)
+            {
+                gainScoreText.text = "NICE: +" + gainScore.ToString();
+                comboText.gameObject.SetActive(false);
+            }
+            else
+            {
+                gainScoreText.text = "+" + gainScore.ToString();
+                comboText.gameObject.SetActive(false);
+            }
             await Task.Delay(1000);
             gainScoreText.gameObject.SetActive(false);
+        }
+
+        private void OnSetMaxComboScore(int score)
+        {
+            maxComboScoreFailPanel.text = "Max Combo: " + score.ToString();
+            maxComboScoreStartPanel.text = "Max Combo: " + score.ToString();
         }
         
         private void OnSetHighScoreText(int score)
@@ -127,6 +156,7 @@ namespace Managers
             UISignals.Instance.onClosePanel?.Invoke(UIPanels.FailPanel);
             
             gamePanelController.SetGamePanel();
+            comboText.gameObject.SetActive(false);
         }
     }
 }
