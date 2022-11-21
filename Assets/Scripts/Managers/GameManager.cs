@@ -7,6 +7,8 @@ namespace Managers
         private void Awake()
         {
             Application.targetFrameRate = 60;
+            
+            
         }
     }
 }

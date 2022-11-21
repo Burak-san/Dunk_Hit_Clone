@@ -92,18 +92,18 @@ namespace Managers
         {
             gainScoreText.gameObject.SetActive(true);
             
-            if (gainScore == 8)
+            if (gainScore >= 6)
             {
                 comboText.gameObject.SetActive(true);
                 comboText.text = "Combo: " + Combo.ToString();
                 gainScoreText.text = "PERFECT SHOT!!!!!!!!!: +" + gainScore.ToString();
             }
-            else if (gainScore == 4)
+            else if (gainScore >= 4 && gainScore < 6)
             {
                 gainScoreText.text = "AMAZING!!!!: +" + gainScore.ToString();
                 comboText.gameObject.SetActive(false);
             }
-            else if (gainScore == 2)
+            else if (gainScore >= 2 && gainScore < 4)
             {
                 gainScoreText.text = "NICE: +" + gainScore.ToString();
                 comboText.gameObject.SetActive(false);

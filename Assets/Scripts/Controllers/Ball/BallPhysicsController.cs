@@ -32,7 +32,7 @@ namespace Controllers.Ball
 
             if (other.CompareTag("HoopBorder"))
             {
-                ScoreSignals.Instance.onComboDecrease?.Invoke();
+                ScoreSignals.Instance.onComboValueDecrease?.Invoke();
                 _manager.SetSpeed();
             }
             
@@ -44,8 +44,8 @@ namespace Controllers.Ball
             if (other.CompareTag("InSideHoop"))
             {
                 _manager.SetBallDirection();
-                ScoreSignals.Instance.onGainScore?.Invoke();
                 CoreGameSignals.Instance.onBasket?.Invoke();
+                ScoreSignals.Instance.onGainScore?.Invoke();
             }
             
             if (other.CompareTag("BottomSideHoop"))

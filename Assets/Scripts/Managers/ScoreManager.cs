@@ -2,6 +2,7 @@
 using Data.ValueObjects;
 using Signals;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 namespace Managers
 {
@@ -39,7 +40,7 @@ namespace Managers
             ScoreSignals.Instance.onGainScore += OnGainScore;
             ScoreSignals.Instance.onScoreIncreaseable += OnScoreIncreaseable;
             ScoreSignals.Instance.onScoreGainBlocked += OnScoreGainBlocked;
-            ScoreSignals.Instance.onComboDecrease += OnComboDecrease;
+            ScoreSignals.Instance.onComboValueDecrease += OnComboDecrease;
 
             CoreGameSignals.Instance.onReset += OnReset;
         }
@@ -49,7 +50,7 @@ namespace Managers
             ScoreSignals.Instance.onGainScore -= OnGainScore;
             ScoreSignals.Instance.onScoreIncreaseable -= OnScoreIncreaseable;
             ScoreSignals.Instance.onScoreGainBlocked -= OnScoreGainBlocked;
-            ScoreSignals.Instance.onComboDecrease -= OnComboDecrease;
+            ScoreSignals.Instance.onComboValueDecrease -= OnComboDecrease;
             
             CoreGameSignals.Instance.onReset -= OnReset;
         }
@@ -71,19 +72,36 @@ namespace Managers
             if (_scoreIncreaseable == true)
             {
                 Data.Score += Data.GainScore;
-                
-                if (Data.GainScore == 8)
+
+                if (Data.GainScore < 6)
+                {
+                    Data.Combo = 0;
+                    ScoreSignals.Instance.onExitCombo?.Invoke();
+                }
+                else
                 {
                     Data.Combo += 1;
+                    if (Data.Combo == 1)
+                    {
+                        ScoreSignals.Instance.onExitCombo?.Invoke();
+                    }
+                    if (Data.Combo > 1 && Data.Combo < 3)
+                    {
+                        ScoreSignals.Instance.onExitCombo?.Invoke();
+                        ScoreSignals.Instance.onCombo?.Invoke(0);
+                    }
+
+                    if (Data.Combo >= 3)
+                    {
+                        ScoreSignals.Instance.onExitCombo?.Invoke();
+                        ScoreSignals.Instance.onCombo?.Invoke(1);
+                    }
+                    
                     if (Data.Combo> Data.MaxComboScore)
                     {
                         Data.MaxComboScore = Data.Combo;
                         UISignals.Instance.onSetMaxComboScore?.Invoke(Data.MaxComboScore);
                     }
-                }
-                else
-                {
-                    Data.Combo = 0;
                 }
                 
                 UISignals.Instance.onSetScoreText?.Invoke(Data.Score);
@@ -101,7 +119,7 @@ namespace Managers
         
         private void OnComboDecrease()
         {
-            Data.GainScore /= 2;
+            Data.GainScore -= 2;
             
             if (Data.GainScore < 1)
             {

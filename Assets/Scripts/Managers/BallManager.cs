@@ -7,6 +7,7 @@ namespace Managers
     public class BallManager : MonoBehaviour
     {
         [SerializeField] private BallMovementController ballMovementController;
+        [SerializeField] private BallParticleController ballParticleController;
 
         #region Event Subscription
 
@@ -20,14 +21,17 @@ namespace Managers
             InputSignals.Instance.onInputTaken += OnInputTaken;
 
             ScoreSignals.Instance.onGainScore += OnBasket;
+            ScoreSignals.Instance.onCombo += OnCombo;
+            ScoreSignals.Instance.onExitCombo += OnExitCombo;
         }
 
         private void UnSubscribeEvents()
         {
             InputSignals.Instance.onInputTaken -= OnInputTaken;
             ScoreSignals.Instance.onGainScore -= OnBasket;
+            ScoreSignals.Instance.onCombo -= OnCombo;
+            ScoreSignals.Instance.onExitCombo -= OnExitCombo;
         }
-
         private void OnDisable()
         {
             UnSubscribeEvents();
@@ -53,6 +57,16 @@ namespace Managers
         private void OnBasket()
         {
             ballMovementController.Basket();
+        }
+        
+        private void OnCombo(int count)
+        {
+            ballParticleController.Combo(count);
+        }
+        
+        private void OnExitCombo()
+        {
+            ballParticleController.ExitCombo();
         }
     }
 }
