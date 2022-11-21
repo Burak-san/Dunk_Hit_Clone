@@ -30,11 +30,6 @@ namespace Controllers.Ball
                 UISignals.Instance.onCheckClickable?.Invoke();
             }
             
-            if (other.CompareTag("HoopBorder"))
-            {
-                _manager.SetBallDirection();
-            }
-            
             if (other.CompareTag("TopSideHoop"))
             {
                 ScoreSignals.Instance.onScoreIncreaseable?.Invoke();
@@ -42,15 +37,9 @@ namespace Controllers.Ball
 
             if (other.CompareTag("InSideHoop"))
             {
+                _manager.SetBallDirection();
                 ScoreSignals.Instance.onGainScore?.Invoke();
-                
                 CoreGameSignals.Instance.onBasket?.Invoke();
-                
-                // CORE GAME SİNYALE İNVOKE ATILACAK HOOP DİNLEYİP DOTWEEN İLE HAREKET EDECEK VE ROPE HAREKET EDECEK
-                // ROPE HAREKETİNDE SCRİPTABLE İÇİNE ROPE SPRİTE LİSTESİ EKLENECEK COROUTİNE İLE DÖNÜLECEK DATADAN ÇEKİLECEK
-                
-                //OPSİYONEL OLARAK SCORE COMBO YAPILACAK HOOP MATERİAL DEĞİŞİMİ OPSİYONEL
-                //Debug.Log("InSideHook");
             }
             
             if (other.CompareTag("BottomSideHoop"))

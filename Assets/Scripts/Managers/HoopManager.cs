@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using Controllers.Hoop;
+using Data.UnityObjects;
+using Data.ValueObjects;
 using Signals;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Managers
 {
     public class HoopManager : MonoBehaviour
     {
-        public List<HoopMovementController> hoops;
+        [SerializeField] private GameObject LeftHoop;
+        [SerializeField] private GameObject RightHoop;
+
+        private BallMovementData _ballMovementData;
 
         private void Awake()
         {
@@ -17,8 +23,10 @@ namespace Managers
 
         private void Init()
         {
-            
+            _ballMovementData = GetBallMovementData();
         }
+        
+        private BallMovementData GetBallMovementData() => Resources.Load<CD_Ball>("Data/CD_Ball").BallMovementData;
 
         #region Event Subscriptions
 
@@ -31,12 +39,14 @@ namespace Managers
         {
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onReset += OnReset;
+            CoreGameSignals.Instance.onBasket += OnBasket;
         }
 
         private void UnSubscribeEvents()
         {
             CoreGameSignals.Instance.onPlay -= OnPlay;
             CoreGameSignals.Instance.onReset -= OnReset;
+            CoreGameSignals.Instance.onBasket -= OnBasket;
         }
         private void OnDisable()
         {
@@ -50,6 +60,27 @@ namespace Managers
             
         }
         
+        private void OnBasket()
+        {
+            if (_ballMovementData.direction == 1)
+            {
+                RightHoop.SetActive(true);
+                RandomYPos();
+                LeftHoop.SetActive(false);
+            }
+            else if (_ballMovementData.direction == -1)
+            {
+                LeftHoop.SetActive(true);
+                RandomYPos();
+                RightHoop.SetActive(false);
+            }
+        }
+
+        private void RandomYPos()
+        {
+            RightHoop.transform.position = new Vector3(3.5f, Random.Range(-2, 2));
+            LeftHoop.transform.position = new Vector3(-3.5f, Random.Range(-2, 2));
+        }
 
         private void OnReset()
         {

@@ -10,7 +10,7 @@ namespace Managers
         public ScoreData Data;
         private bool _scoreIncreaseable = true;
 
-        private void Awake()
+        private void Start()
         {
             GetReferences();
         }

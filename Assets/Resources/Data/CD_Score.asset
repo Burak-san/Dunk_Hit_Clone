@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScoreData:
     Score: 0
-    GainScore: 1
-    HighScore: 15
+    GainScore: 0
+    HighScore: 0

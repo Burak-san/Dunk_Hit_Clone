@@ -113,7 +113,6 @@ namespace Managers
         public void PlayButton()
         {
             CoreGameSignals.Instance.onPlay?.Invoke();
-            Debug.Log("bastı");
         }
 
         public void RestartButton()
