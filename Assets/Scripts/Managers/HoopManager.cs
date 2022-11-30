@@ -10,8 +10,8 @@ namespace Managers
 {
     public class HoopManager : MonoBehaviour
     {
-        [SerializeField] private GameObject LeftHoop;
-        [SerializeField] private GameObject RightHoop;
+        [SerializeField] private GameObject leftHoop;
+        [SerializeField] private GameObject rightHoop;
 
         private BallMovementData _ballMovementData;
 
@@ -63,26 +63,26 @@ namespace Managers
         {
             if (_ballMovementData.direction == 1)
             {
-                RightHoop.SetActive(true);
-                RightHoop.transform.position = new Vector3(6.5f, Random.Range(-2, 3));
-                RightHoop.transform.DOMoveX(3.5f, 0.75f, false).SetEase(Ease.OutBounce);
+                rightHoop.SetActive(true);
+                rightHoop.transform.position = new Vector3(6.5f, Random.Range(-2, 3));
+                rightHoop.transform.DOMoveX(3.5f, 0.75f, false).SetEase(Ease.OutBounce);
                 //RightHoop.transform.DORotate(new Vector3(0, 0, 180), 1, RotateMode.LocalAxisAdd);
                 await Task.Delay(200);
-                LeftHoop.transform.DOMoveX(LeftHoop.transform.position.x - 3, 0.75f, false).SetEase(Ease.OutBounce);
+                leftHoop.transform.DOMoveX(leftHoop.transform.position.x - 3, 0.75f, false).SetEase(Ease.OutBounce);
                 await Task.Delay(1001);
-                LeftHoop.SetActive(false);
+                leftHoop.SetActive(false);
                 
             }
             else if (_ballMovementData.direction == -1)
             {
-                LeftHoop.SetActive(true);
-                LeftHoop.transform.position = new Vector3(-6.5f, Random.Range(-2, 3));
-                LeftHoop.transform.DOMoveX(-3.5f, 0.75f, false).SetEase(Ease.OutBounce);
+                leftHoop.SetActive(true);
+                leftHoop.transform.position = new Vector3(-6.5f, Random.Range(-2, 3));
+                leftHoop.transform.DOMoveX(-3.5f, 0.75f, false).SetEase(Ease.OutBounce);
                 //LeftHoop.transform.DORotate(new Vector3(0, 0, -180), 1, RotateMode.LocalAxisAdd);
                 await Task.Delay(200);
-                RightHoop.transform.DOMoveX(RightHoop.transform.position.x + 3, 0.75f, false).SetEase(Ease.OutBounce);
+                rightHoop.transform.DOMoveX(rightHoop.transform.position.x + 3, 0.75f, false).SetEase(Ease.OutBounce);
                 await Task.Delay(1001);
-                RightHoop.SetActive(false);
+                rightHoop.SetActive(false);
             }
         }
 

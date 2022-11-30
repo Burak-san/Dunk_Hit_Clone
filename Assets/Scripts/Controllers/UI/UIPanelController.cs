@@ -6,16 +6,16 @@ namespace Controllers.UI
 {
     public class UIPanelController : MonoBehaviour
     {
-        [SerializeField] private List<GameObject> UIPanelList = new List<GameObject>();
+        [SerializeField] private List<GameObject> uıPanelList = new List<GameObject>();
 
         public void OpenPanel(UIPanels panelState)
         {
-            UIPanelList[(int)panelState].SetActive(true);
+            uıPanelList[(int)panelState].SetActive(true);
         }
 
         public void ClosePanel(UIPanels panelState)
         {
-            UIPanelList[(int)panelState].SetActive(false);
+            uıPanelList[(int)panelState].SetActive(false);
         }
     }
 }
